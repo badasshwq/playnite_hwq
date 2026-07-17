@@ -246,6 +246,58 @@ namespace Playnite.DesktopApp
                     logger.Error(e, "Failed to auto-scan game folders on startup.");
                 }
             }
+
+            // 若已安装 SteamGridDB 元数据插件但未配置 API Key，则推一条可点击通知引导用户配置（否则封面下载不了）。
+            CheckSteamGridDBApiKey();
+        }
+
+        private void CheckSteamGridDBApiKey()
+        {
+            try
+            {
+                const string sgdbManifestId = "SteamGridDB_Playnite_Metadata";
+                var loaded = Extensions.Plugins.FirstOrDefault(a => a.Value.Description.Id == sgdbManifestId).Value;
+                if (loaded?.Plugin == null)
+                {
+                    // 未安装该插件 -> 无需提示
+                    return;
+                }
+
+                var configPath = System.IO.Path.Combine(
+                    PlaynitePaths.ExtensionsDataPath,
+                    loaded.Plugin.Id.ToString(),
+                    "config.json");
+                if (!System.IO.File.Exists(configPath))
+                {
+                    return;
+                }
+
+                var dto = Playnite.SDK.Data.Serialization.FromJsonFile<SteamGridDBConfigDto>(configPath);
+                if (!dto.ApiKey.IsNullOrWhiteSpace())
+                {
+                    // 已配置 -> 撤掉可能残留的旧通知
+                    Notifications.Remove("SteamGridDB_ApiKey_Missing");
+                    return;
+                }
+
+                Notifications.Add(new NotificationMessage(
+                    "SteamGridDB_ApiKey_Missing",
+                    ResourceProvider.GetString("LOCSgdbNotifyKeyMissing"),
+                    NotificationType.Info,
+                    () =>
+                    {
+                        new Windows.SteamGridDBGuideWindowFactory().CreateAndOpenDialog(null);
+                    }));
+            }
+            catch (Exception e) when (!PlayniteEnvironment.ThrowAllErrors)
+            {
+                logger.Error(e, "Failed to check SteamGridDB API key.");
+            }
+        }
+
+        private class SteamGridDBConfigDto
+        {
+            public string ApiKey { get; set; }
         }
 
         private bool ProcessStartupWizard()

@@ -1,0 +1,125 @@
+<controls:WindowBase x:Class="Playnite.DesktopApp.Windows.SteamGridDBGuideWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:Playnite.Controls;assembly=Playnite"
+        mc:Ignorable="d"
+        d:DesignStyle="{StaticResource WindowDesignStyle}"
+        Style="{DynamicResource StandardWindowStyle}"
+        WindowStartupLocation="CenterOwner"
+        Title="{DynamicResource LOCSgdbGuideWindowTitle}"
+        Height="640" Width="720">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Padding="0">
+            <StackPanel Margin="34,30,34,20" MaxWidth="620" HorizontalAlignment="Left">
+                <!-- 标题 -->
+                <TextBlock Text="{DynamicResource LOCSgdbGuideHeading}"
+                           FontSize="{DynamicResource FontSizeLargest}" FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextBrush}"
+                           TextWrapping="Wrap" Margin="0,0,0,8" />
+                <TextBlock Text="{DynamicResource LOCSgdbGuideLede}"
+                           TextWrapping="Wrap"
+                           Foreground="{DynamicResource TextBrush}" Margin="0,0,0,20" />
+
+                <!-- 为什么 -->
+                <Border Background="{DynamicResource NormalBrush}" CornerRadius="4"
+                        Padding="16,12,16,12" Margin="0,0,0,24">
+                    <TextBlock Text="{DynamicResource LOCSgdbGuideWhy}"
+                               Foreground="{DynamicResource TextBrush}" TextWrapping="Wrap" />
+                </Border>
+
+                <!-- 步骤 1 -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                    <Border Width="30" Height="30" CornerRadius="6" VerticalAlignment="Top"
+                            Background="{DynamicResource GlyphBrush}">
+                        <TextBlock Text="1" Foreground="White" FontWeight="Bold"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel Margin="14,0,0,0">
+                        <TextBlock Text="{DynamicResource LOCSgdbGuideStep1Title}" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}"
+                                   FontSize="{DynamicResource FontSizeLarge}" TextWrapping="Wrap" Margin="0,2,0,4" />
+                        <TextBlock Text="{DynamicResource LOCSgdbGuideStep1Body}"
+                                   Style="{DynamicResource BaseTextBlockStyle}" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextBrush}" MaxWidth="540" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 步骤 2 -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                    <Border Width="30" Height="30" CornerRadius="6" VerticalAlignment="Top"
+                            Background="{DynamicResource GlyphBrush}">
+                        <TextBlock Text="2" Foreground="White" FontWeight="Bold"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel Margin="14,0,0,0">
+                        <TextBlock Text="{DynamicResource LOCSgdbGuideStep2Title}" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}"
+                                   FontSize="{DynamicResource FontSizeLarge}" TextWrapping="Wrap" Margin="0,2,0,4" />
+                        <TextBlock Style="{DynamicResource BaseTextBlockStyle}" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextBrush}" MaxWidth="540" HorizontalAlignment="Left">
+                            <Run Text="{DynamicResource LOCSgdbGuideStep2Body}" />
+                            <LineBreak /><LineBreak />
+                            <Hyperlink NavigateUri="https://www.steamgriddb.com/profile/preferences/api"
+                                       RequestNavigate="Hyperlink_RequestNavigate">
+                                https://www.steamgriddb.com/profile/preferences/api
+                            </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 步骤 3 -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                    <Border Width="30" Height="30" CornerRadius="6" VerticalAlignment="Top"
+                            Background="{DynamicResource GlyphBrush}">
+                        <TextBlock Text="3" Foreground="White" FontWeight="Bold"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel Margin="14,0,0,0">
+                        <TextBlock Text="{DynamicResource LOCSgdbGuideStep3Title}" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}"
+                                   FontSize="{DynamicResource FontSizeLarge}" TextWrapping="Wrap" Margin="0,2,0,4" />
+                        <TextBlock Text="{DynamicResource LOCSgdbGuideStep3Body}"
+                                   Style="{DynamicResource BaseTextBlockStyle}" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextBrush}" MaxWidth="540" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 步骤 4 -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                    <Border Width="30" Height="30" CornerRadius="6" VerticalAlignment="Top"
+                            Background="{DynamicResource GlyphBrush}">
+                        <TextBlock Text="4" Foreground="White" FontWeight="Bold"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel Margin="14,0,0,0">
+                        <TextBlock Text="{DynamicResource LOCSgdbGuideStep4Title}" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}"
+                                   FontSize="{DynamicResource FontSizeLarge}" TextWrapping="Wrap" Margin="0,2,0,4" />
+                        <TextBlock Text="{DynamicResource LOCSgdbGuideStep4Body}"
+                                   Style="{DynamicResource BaseTextBlockStyle}" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextBrush}" MaxWidth="540" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 完成后 -->
+                <Border Background="{DynamicResource NormalBrush}" CornerRadius="4" Padding="16,12,16,12">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource LOCSgdbGuideDoneTitle}" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" Margin="0,0,0,4" />
+                        <TextBlock Text="{DynamicResource LOCSgdbGuideDoneBody}"
+                                   Style="{DynamicResource BaseTextBlockStyle}" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextBrush}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <DockPanel Grid.Row="1" LastChildFill="False" Margin="10,8,10,10">
+            <Button Content="{DynamicResource LOCCloseLabel}" DockPanel.Dock="Right"
+                    Style="{StaticResource BottomButton}" IsCancel="True"
+                    Click="CloseButton_Click" />
+        </DockPanel>
+    </Grid>
+</controls:WindowBase>

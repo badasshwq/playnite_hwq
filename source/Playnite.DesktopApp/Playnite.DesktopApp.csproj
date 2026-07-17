@@ -383,6 +383,9 @@
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\SteamGridDBGuideWindow.xaml.cs">
+      <DependentUpon>SteamGridDBGuideWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\CategoryConfigWindow.xaml.cs">
       <DependentUpon>CategoryConfigWindow.xaml</DependentUpon>
     </Compile>
@@ -1163,6 +1166,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\AboutWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\SteamGridDBGuideWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

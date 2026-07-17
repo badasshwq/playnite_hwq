@@ -2522,13 +2522,73 @@ namespace Playnite
         /// </summary>
         public const string GameFoldersExcludeListTitle = "LOCGameFoldersExcludeListTitle";
         /// <summary>
-        /// These programs are ignored during scanning and won't show up again. Remove one to let it be found next time.
+        /// These game folders are ignored entirely during scanning and won't show up again. Remove one to let its games be found next time.
         /// </summary>
         public const string GameFoldersExcludeListDescription = "LOCGameFoldersExcludeListDescription";
         /// <summary>
-        /// Nothing excluded yet. Tick items in the scan window and click "Exclude selected".
+        /// Nothing excluded yet. Tick games in the scan window and click "Exclude selected".
         /// </summary>
         public const string GameFoldersExcludeListEmpty = "LOCGameFoldersExcludeListEmpty";
+        /// <summary>
+        /// SteamGridDB API key is not set — game covers can't be downloaded. Click to see how to set it up.
+        /// </summary>
+        public const string SgdbNotifyKeyMissing = "LOCSgdbNotifyKeyMissing";
+        /// <summary>
+        /// SteamGridDB Setup Guide
+        /// </summary>
+        public const string SgdbGuideWindowTitle = "LOCSgdbGuideWindowTitle";
+        /// <summary>
+        /// Get beautiful covers for your games
+        /// </summary>
+        public const string SgdbGuideHeading = "LOCSgdbGuideHeading";
+        /// <summary>
+        /// Playnite uses SteamGridDB to download high-quality covers, backgrounds and logos. You need a free API key first — about 1 minute, done once, and all your games get covers automatically afterwards.
+        /// </summary>
+        public const string SgdbGuideLede = "LOCSgdbGuideLede";
+        /// <summary>
+        /// Why is this needed? SteamGridDB is a community image library with tons of high-quality game covers. It asks everyone to use their own free key so the library stays reliable. Fill it in once and Playnite remembers it.
+        /// </summary>
+        public const string SgdbGuideWhy = "LOCSgdbGuideWhy";
+        /// <summary>
+        /// Open the SteamGridDB settings
+        /// </summary>
+        public const string SgdbGuideStep1Title = "LOCSgdbGuideStep1Title";
+        /// <summary>
+        /// In Playnite go to Settings → Metadata Sources, then click SteamGridDB in the list. You'll see a "SteamGridDB API Key:" row with an empty box and a "Get API Key" button.
+        /// </summary>
+        public const string SgdbGuideStep1Body = "LOCSgdbGuideStep1Body";
+        /// <summary>
+        /// Click "Get API Key" to sign up for free
+        /// </summary>
+        public const string SgdbGuideStep2Title = "LOCSgdbGuideStep2Title";
+        /// <summary>
+        /// Click the "Get API Key" button; your browser opens the SteamGridDB key page. Sign in with any of Steam / Google / Discord — no separate registration, completely free. If it doesn't open, visit:
+        /// </summary>
+        public const string SgdbGuideStep2Body = "LOCSgdbGuideStep2Body";
+        /// <summary>
+        /// Generate and copy your API key
+        /// </summary>
+        public const string SgdbGuideStep3Title = "LOCSgdbGuideStep3Title";
+        /// <summary>
+        /// After signing in, click "Generate API Key" in the API Key section. A long string of letters and numbers appears — copy the whole thing. Keep this key private; it's free and you can regenerate it anytime.
+        /// </summary>
+        public const string SgdbGuideStep3Body = "LOCSgdbGuideStep3Body";
+        /// <summary>
+        /// Paste it back into Playnite and save
+        /// </summary>
+        public const string SgdbGuideStep4Title = "LOCSgdbGuideStep4Title";
+        /// <summary>
+        /// Back on the SteamGridDB settings from step 1, paste the key into the box next to "SteamGridDB API Key:", then click Save. Done!
+        /// </summary>
+        public const string SgdbGuideStep4Body = "LOCSgdbGuideStep4Body";
+        /// <summary>
+        /// How to use it afterwards
+        /// </summary>
+        public const string SgdbGuideDoneTitle = "LOCSgdbGuideDoneTitle";
+        /// <summary>
+        /// Select one or more games → right-click Edit → Download Metadata, or tick auto-download when importing new games. Covers, backgrounds and descriptions get filled in automatically.
+        /// </summary>
+        public const string SgdbGuideDoneBody = "LOCSgdbGuideDoneBody";
         /// <summary>
         /// Statistics
         /// </summary>
