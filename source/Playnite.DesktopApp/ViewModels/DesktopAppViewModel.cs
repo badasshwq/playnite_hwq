@@ -45,6 +45,7 @@ namespace Playnite.DesktopApp.ViewModels
         private readonly SynchronizationContext context;
         private Controls.LibraryStatistics statsView;
         private Controls.Views.Library libraryView;
+        private Controls.GameFoldersView gameFoldersView;
         private SearchViewModel currentGlobalSearch;
 
         public DesktopGamesEditor GamesEditor { get; }
@@ -695,6 +696,60 @@ namespace Playnite.DesktopApp.ViewModels
                     {
                         Logger.Warn("Skipping metadata download for manually added games, some global task is already in progress.");
                     }
+                }
+
+                if (!GlobalTaskHandler.IsActive)
+                {
+                    GlobalTaskHandler.CancelToken = new CancellationTokenSource();
+                    GlobalTaskHandler.ProgressTask = Task.Run(() => UpdateGamesInstallSizes(GlobalTaskHandler.CancelToken.Token, addedGames, LOC.ProgressScanningImportedGamesInstallSize));
+                    await GlobalTaskHandler.ProgressTask;
+                }
+
+                await SetSortingNames(addedGames);
+            }
+        }
+
+        // 扫描“游戏目录”里配置的所有文件夹，找出未导入的新游戏，弹窗让用户勾选后导入并刮削。
+        // silentIfEmpty=true 时（开机自动扫描），没有新游戏就不弹窗、不打扰。
+        public async Task ScanGameFolders(bool silentIfEmpty)
+        {
+            var folders = AppSettings.GameScanFolders?.ToList() ?? new List<string>();
+            if (folders.Count == 0)
+            {
+                if (!silentIfEmpty)
+                {
+                    Dialogs.ShowMessage(Resources.GetString(LOC.GameFoldersNoneConfigured));
+                }
+
+                return;
+            }
+
+            var model = new InstalledGamesViewModel(
+                new InstalledGamesWindowFactory(),
+                Dialogs,
+                Database)
+            {
+                ShowExcludeButton = true
+            };
+            model.ExcludeSelectedHandler = (exes) =>
+            {
+                foreach (var exe in exes)
+                {
+                    if (!AppSettings.ExcludedGameExes.Contains(exe))
+                    {
+                        AppSettings.ExcludedGameExes.Add(exe);
+                    }
+                }
+
+                AppSettings.SaveSettings();
+            };
+
+            if (model.OpenViewOnFolders(folders, AppSettings.ExcludedGameExes) == true && model.SelectedGames?.Any() == true)
+            {
+                var addedGames = InstalledGamesViewModel.AddImportableGamesToDb(model.SelectedGames, Database);
+                if (AppSettings.DownloadMetadataOnImport && !GlobalTaskHandler.IsActive)
+                {
+                    await DownloadMetadata(AppSettings.MetadataSettings, addedGames);
                 }
 
                 if (!GlobalTaskHandler.IsActive)

@@ -9,8 +9,8 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="3,0,0,0" />
-        <Setter Property="Width" Value="44" />
-        <Setter Property="Height" Value="44" />
+        <Setter Property="Width" Value="72" />
+        <Setter Property="MinHeight" Value="60" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type SidebarItem}">
@@ -22,9 +22,16 @@
                                 Padding="{Binding IconPadding}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{TemplateBinding BorderBrush}">
-                            <Viewbox>
-                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                            </Viewbox>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center"
+                                        HorizontalAlignment="Stretch" Margin="0,6,0,6">
+                                <Viewbox Width="26" Height="26" HorizontalAlignment="Center">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Viewbox>
+                                <TextBlock Text="{Binding Title}" Margin="2,4,2,0"
+                                           HorizontalAlignment="Center" TextAlignment="Center"
+                                           TextWrapping="Wrap" FontSize="11"
+                                           Foreground="{TemplateBinding Foreground}" />
+                            </StackPanel>
                         </Border>
                     </Grid>
                 </ControlTemplate>

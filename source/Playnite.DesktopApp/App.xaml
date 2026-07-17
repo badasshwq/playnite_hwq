@@ -54,6 +54,7 @@
                 <ResourceDictionary Source="Themes/Desktop/Default/CustomControls/ExtendedListView.xaml" />
                 <ResourceDictionary Source="Themes/Desktop/Default/CustomControls/ExtendedDataGrid.xaml" />
                 <ResourceDictionary Source="Themes/Desktop/Default/CustomControls/GameMenu.xaml" />
+                <ResourceDictionary Source="Themes/Desktop/Default/CustomControls/AddGameMenu.xaml" />
                 <ResourceDictionary Source="Themes/Desktop/Default/CustomControls/GameGroupMenu.xaml" />
                 <ResourceDictionary Source="Themes/Desktop/Default/CustomControls/HtmlTextView.xaml" />
                 <ResourceDictionary Source="Themes/Desktop/Default/CustomControls/TrayContextMenu.xaml" />

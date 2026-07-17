@@ -213,13 +213,20 @@ namespace Playnite.DesktopApp.ViewModels
             var libraryItem = new MainSidebarViewItem(libraryView, this, ApplicationView.Library)
             {
                 Icon = "SidebarLibraryIcon",
-                Title = Resources.GetString(LOC.Library)
+                Title = Resources.GetString(LOC.SidebarLibrary)
             };
 
             var statsItem = new MainSidebarViewItem(statsView, this, ApplicationView.Statistics)
             {
                 Icon = "SidebarStatisticsIcon",
                 Title = Resources.GetString(LOC.Statistics)
+            };
+
+            gameFoldersView = new Controls.GameFoldersView(this);
+            var gameFoldersItem = new MainSidebarViewItem(gameFoldersView, this, ApplicationView.GameFolders)
+            {
+                Icon = "SidebarLibraryIcon",
+                Title = Resources.GetString(LOC.GameFoldersSidebar)
             };
 
             var sideItems = new List<SidebarWrapperItem>();
@@ -240,6 +247,7 @@ namespace Playnite.DesktopApp.ViewModels
             }
 
             sideItems = sideItems.OrderByDescending(a => a.SideItem.Type).ThenBy(a => a.SideItem.Title).ToList();
+            sideItems.Insert(0, new SidebarWrapperItem(gameFoldersItem, this));
             sideItems.Insert(0, new SidebarWrapperItem(statsItem, this));
             sideItems.Insert(0, new SidebarWrapperItem(libraryItem, this));
             sideItems[0].Command.Execute(null);

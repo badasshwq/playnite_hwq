@@ -35,6 +35,10 @@ namespace Playnite.DesktopApp.ViewModels
         public RelayCommand<object> OpenAddonsCommand { get; private set; }
         public RelayCommand<object> AddCustomGameCommand { get; private set; }
         public RelayCommand<object> AddInstalledGamesCommand { get; private set; }
+        public RelayCommand<object> ScanGameFoldersCommand { get; private set; }
+        public RelayCommand<object> AddGameFolderCommand { get; private set; }
+        public RelayCommand<string> RemoveGameFolderCommand { get; private set; }
+        public RelayCommand<string> RemoveExcludedExeCommand { get; private set; }
         public RelayCommand<object> AddEmulatedGamesCommand { get; private set; }
         public RelayCommand<object> AddWindowsStoreGamesCommand { get; private set; }
         public RelayCommand<object> OpenFullScreenCommand { get; private set; }
@@ -217,6 +221,36 @@ namespace Playnite.DesktopApp.ViewModels
                     Dialogs,
                     Database), null);
             }, (a) => Database?.IsOpen == true);
+
+            ScanGameFoldersCommand = new RelayCommand<object>(async (a) =>
+            {
+                await ScanGameFolders(false);
+            }, (a) => Database?.IsOpen == true);
+
+            AddGameFolderCommand = new RelayCommand<object>((a) =>
+            {
+                var path = Dialogs.SelectFolder();
+                if (!string.IsNullOrEmpty(path) && !AppSettings.GameScanFolders.Contains(path))
+                {
+                    AppSettings.GameScanFolders.Add(path);
+                }
+            });
+
+            RemoveGameFolderCommand = new RelayCommand<string>((path) =>
+            {
+                if (!string.IsNullOrEmpty(path))
+                {
+                    AppSettings.GameScanFolders.Remove(path);
+                }
+            });
+
+            RemoveExcludedExeCommand = new RelayCommand<string>((exe) =>
+            {
+                if (!string.IsNullOrEmpty(exe))
+                {
+                    AppSettings.ExcludedGameExes.Remove(exe);
+                }
+            });
 
             AddEmulatedGamesCommand = new RelayCommand<object>((a) =>
             {

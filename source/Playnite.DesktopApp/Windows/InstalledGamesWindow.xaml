@@ -83,6 +83,10 @@
                     Command="{Binding DetectInstalledCommand}"/>
             <CheckBox Content="{DynamicResource LOCEmuScanHideImported}" Margin="10,0,0,0"
                       IsChecked="{Binding HideImported}" VerticalAlignment="Center" />
+            <Button Name="ButtonExclude" Content="{DynamicResource LOCGameFoldersExcludeSelected}" DockPanel.Dock="Left"
+                    Style="{StaticResource BottomButton}"
+                    Visibility="{Binding ShowExcludeButton, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Command="{Binding ExcludeSelectedCommand}"/>
             <Button TabIndex="5" Name="ButtonCancel" Content="{DynamicResource LOCCancelLabel}" DockPanel.Dock="Right" IsCancel="True"
                     Style="{StaticResource BottomButton}"
                     Command="{Binding CloseCommand}"/>

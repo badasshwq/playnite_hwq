@@ -106,7 +106,8 @@ namespace Playnite
     public enum ApplicationView
     {
         Library,
-        Statistics
+        Statistics,
+        GameFolders
     }
 
     public enum ImageLoadScaling
@@ -1175,6 +1176,51 @@ namespace Playnite
             set
             {
                 disabledPlugins = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<string> gameScanFolders = new ObservableCollection<string>();
+        public ObservableCollection<string> GameScanFolders
+        {
+            get
+            {
+                return gameScanFolders;
+            }
+
+            set
+            {
+                gameScanFolders = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool autoScanGameFoldersOnStartup = true;
+        public bool AutoScanGameFoldersOnStartup
+        {
+            get
+            {
+                return autoScanGameFoldersOnStartup;
+            }
+
+            set
+            {
+                autoScanGameFoldersOnStartup = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<string> excludedGameExes = new ObservableCollection<string>();
+        public ObservableCollection<string> ExcludedGameExes
+        {
+            get
+            {
+                return excludedGameExes;
+            }
+
+            set
+            {
+                excludedGameExes = value;
                 OnPropertyChanged();
             }
         }

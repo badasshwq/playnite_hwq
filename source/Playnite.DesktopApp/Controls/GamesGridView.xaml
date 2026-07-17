@@ -426,6 +426,9 @@
             <p:BindingProxy x:Key="SettingsProxy" Data="{Binding}" />
             <p:BindingProxy x:Key="GridGamesProxy" Data="{Binding ElementName=GridGames}" />
         </ListView.Resources>
+        <ListView.ContextMenu>
+            <pc:AddGameMenu />
+        </ListView.ContextMenu>
         <ListView.InputBindings>
             <KeyBinding Command="{Binding Data.EditSelectedGamesCommand, Source={StaticResource MainProxy}}"
                         Key ="{Binding Data.EditSelectedGamesCommand.Gesture.Key, Source={StaticResource MainProxy}}"

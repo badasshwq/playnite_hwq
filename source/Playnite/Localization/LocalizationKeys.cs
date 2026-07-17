@@ -2478,6 +2478,58 @@ namespace Playnite
         /// </summary>
         public const string Library = "LOCLibrary";
         /// <summary>
+        /// Game Library
+        /// </summary>
+        public const string SidebarLibrary = "LOCSidebarLibrary";
+        /// <summary>
+        /// Game Folders
+        /// </summary>
+        public const string GameFoldersSidebar = "LOCGameFoldersSidebar";
+        /// <summary>
+        /// Game Folders
+        /// </summary>
+        public const string GameFoldersTitle = "LOCGameFoldersTitle";
+        /// <summary>
+        /// Add folders where you keep your ready-to-play games. On startup Playnite scans these folders and lets you pick up newly found games to import, then downloads their covers automatically.
+        /// </summary>
+        public const string GameFoldersDescription = "LOCGameFoldersDescription";
+        /// <summary>
+        /// Automatically scan these folders on startup
+        /// </summary>
+        public const string GameFoldersAutoScanOnStartup = "LOCGameFoldersAutoScanOnStartup";
+        /// <summary>
+        /// Add folder...
+        /// </summary>
+        public const string GameFoldersAddFolder = "LOCGameFoldersAddFolder";
+        /// <summary>
+        /// Scan now
+        /// </summary>
+        public const string GameFoldersScanNow = "LOCGameFoldersScanNow";
+        /// <summary>
+        /// No folders configured yet. Click "Add folder..." to choose one.
+        /// </summary>
+        public const string GameFoldersEmpty = "LOCGameFoldersEmpty";
+        /// <summary>
+        /// No game folders are configured. Add a folder first.
+        /// </summary>
+        public const string GameFoldersNoneConfigured = "LOCGameFoldersNoneConfigured";
+        /// <summary>
+        /// Exclude selected
+        /// </summary>
+        public const string GameFoldersExcludeSelected = "LOCGameFoldersExcludeSelected";
+        /// <summary>
+        /// Excluded programs
+        /// </summary>
+        public const string GameFoldersExcludeListTitle = "LOCGameFoldersExcludeListTitle";
+        /// <summary>
+        /// These programs are ignored during scanning and won't show up again. Remove one to let it be found next time.
+        /// </summary>
+        public const string GameFoldersExcludeListDescription = "LOCGameFoldersExcludeListDescription";
+        /// <summary>
+        /// Nothing excluded yet. Tick items in the scan window and click "Exclude selected".
+        /// </summary>
+        public const string GameFoldersExcludeListEmpty = "LOCGameFoldersExcludeListEmpty";
+        /// <summary>
         /// Statistics
         /// </summary>
         public const string Statistics = "LOCStatistics";
@@ -3138,7 +3190,7 @@ namespace Playnite
         /// </summary>
         public const string UrlNavigationMessage = "LOCUrlNavigationMessage";
         /// <summary>
-        /// The selected image(s) might be too large for optimal performance. Using very large images can result in worse UI responsiveness and increased memory usage.
+        /// The selected image(s) might be too large for optimal performance. Using very large images can result in worse UI responsiveness and increased memory usage. 
         /// </summary>
         public const string GameImageSizeWarning = "LOCGameImageSizeWarning";
         /// <summary>
@@ -4494,7 +4546,7 @@ namespace Playnite
         /// </summary>
         public const string DefaultWebImageSource = "LOCDefaultWebImageSource";
         /// <summary>
-        /// Default source
+        /// Web image search failed. This can happen for various reasons. See the following link for more details and troubleshooting tips.
         /// </summary>
         public const string WebImageDownloadError = "LOCWebImageDownloadError";
     }

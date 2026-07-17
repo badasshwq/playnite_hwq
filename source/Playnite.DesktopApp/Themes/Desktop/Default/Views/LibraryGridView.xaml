@@ -25,6 +25,9 @@
                                              ItemContainerStyle="{DynamicResource GridViewItemStyle}"
                                              DockPanel.Dock="Left"
                                              BorderThickness="0">
+                                <ExtendedListBox.ContextMenu>
+                                    <AddGameMenu />
+                                </ExtendedListBox.ContextMenu>
                                 <ExtendedListBox.ItemTemplate>
                                     <DataTemplate>
                                         <GameListItem Style="{StaticResource GridViewItemTemplate}" />

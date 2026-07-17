@@ -233,6 +233,19 @@ namespace Playnite.DesktopApp
 
             // This is most likely safe place to consider application to be started properly
             FileSystem.DeleteFile(PlaynitePaths.SafeStartupFlagFile);
+
+            // 开机自动扫描“游戏目录”里配置的文件夹，发现新游戏则弹窗让用户勾选导入（无新游戏则静默）。
+            if (!isFirstStart && AppSettings.AutoScanGameFoldersOnStartup && AppSettings.GameScanFolders?.Any() == true)
+            {
+                try
+                {
+                    await MainModel.ScanGameFolders(true);
+                }
+                catch (Exception e) when (!PlayniteEnvironment.ThrowAllErrors)
+                {
+                    logger.Error(e, "Failed to auto-scan game folders on startup.");
+                }
+            }
         }
 
         private bool ProcessStartupWizard()
