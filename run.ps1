@@ -34,14 +34,36 @@ if (-not (Test-Path $msbuild)) {
     exit 1
 }
 
-# 3) 编译解决方案的桌面版目标（必须编 sln + 显式 x86，不能直接编 csproj）
-Write-Step "编译 Playnite.DesktopApp（$config / x86）..."
-& $msbuild $sln /t:Playnite_DesktopApp /p:Configuration=$config /p:Platform=x86 /m /v:minimal /nologo
+# 3) 编译桌面版 + 全屏版（两个 exe 必须都在同一输出目录，否则模式切换会“找不到文件”）
+#    必须编 sln + 显式 x86，不能直接编单个 csproj。
+Write-Step "编译 Playnite.DesktopApp + Playnite.FullscreenApp（$config / x86）..."
+& $msbuild $sln /t:"Playnite_DesktopApp;Playnite_FullscreenApp" /p:Configuration=$config /p:Platform=x86 /m /v:minimal /nologo
 if ($LASTEXITCODE -ne 0) {
     Write-Host "`n编译失败（退出码 $LASTEXITCODE）。请查看上面的 error 信息。" -ForegroundColor Red
     exit $LASTEXITCODE
 }
 Write-Host "  编译成功" -ForegroundColor Green
+
+# 3b) 把全屏版产物合并到桌面版输出目录。
+#     桌面版“切换到全屏模式”会去自己所在目录找 Playnite.FullscreenApp.exe（正式打包时两个 exe 同目录），
+#     但开发时它们各自编到独立的 bin 目录，导致切换全屏时“找不到文件”。这里把全屏产物拷过来补齐。
+Write-Step "合并全屏版产物到桌面版目录..."
+$desktopOut = Join-Path $repo "source\Playnite.DesktopApp\bin\x86\$config"
+$fullscreenOut = Join-Path $repo "source\Playnite.FullscreenApp\bin\x86\$config"
+if (Test-Path $fullscreenOut) {
+    # 只拷贝全屏版特有、桌面版目录里尚不存在或更旧的文件，避免覆盖共享 DLL 造成的无谓改动
+    Copy-Item (Join-Path $fullscreenOut "Playnite.FullscreenApp.exe") $desktopOut -Force
+    $fsConfig = Join-Path $fullscreenOut "Playnite.FullscreenApp.exe.config"
+    if (Test-Path $fsConfig) { Copy-Item $fsConfig $desktopOut -Force }
+    # 全屏版专属主题目录（Themes\Fullscreen）
+    $fsThemes = Join-Path $fullscreenOut "Themes\Fullscreen"
+    if (Test-Path $fsThemes) {
+        Copy-Item $fsThemes (Join-Path $desktopOut "Themes") -Recurse -Force
+    }
+    Write-Host "  已合并全屏版 exe/主题" -ForegroundColor Green
+} else {
+    Write-Host "  警告：未找到全屏版输出目录，切换全屏可能失败" -ForegroundColor Yellow
+}
 
 # 4) 启动
 if ($NoRun) {

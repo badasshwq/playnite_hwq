@@ -270,7 +270,7 @@ namespace Playnite.Database
                     {
                         new FilterPreset
                         {
-                            Name = "All",
+                            Name = ResourceProvider.GetString(LOC.QuickFilterAllGames),
                             ShowInFullscreeQuickSelection = true,
                             GroupingOrder = GroupableField.None,
                             SortingOrder = SortOrder.Name,
@@ -279,7 +279,7 @@ namespace Playnite.Database
                         },
                         new FilterPreset
                         {
-                            Name = "Recently Played",
+                            Name = ResourceProvider.GetString(LOC.QuickFilterRecentlyPlayed),
                             ShowInFullscreeQuickSelection = true,
                             GroupingOrder = GroupableField.None,
                             SortingOrder = SortOrder.LastActivity,
@@ -288,7 +288,7 @@ namespace Playnite.Database
                         },
                         new FilterPreset
                         {
-                            Name = "Favorites",
+                            Name = ResourceProvider.GetString(LOC.QuickFilterFavorites),
                             ShowInFullscreeQuickSelection = true,
                             GroupingOrder = GroupableField.None,
                             SortingOrder = SortOrder.Name,
@@ -297,7 +297,7 @@ namespace Playnite.Database
                         },
                         new FilterPreset
                         {
-                            Name = "Most Played",
+                            Name = ResourceProvider.GetString(LOC.QuickFilterMostPlayed),
                             ShowInFullscreeQuickSelection = true,
                             GroupingOrder = GroupableField.None,
                             SortingOrder = SortOrder.Playtime,
