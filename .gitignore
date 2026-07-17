@@ -280,3 +280,5 @@ source/PlayniteServices/twitchTokens.json
 XBOXONE.ttf
 PlayStation4.ttf
 source/Playnite.FullscreenApp/Themes/Fullscreen/Default/audio/*
+# Root packaging output (package.ps1)
+/Playnite-*.zip
