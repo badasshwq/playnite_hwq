@@ -1409,7 +1409,8 @@ namespace Playnite
 
         private void UpdateCheckerCallback(object state)
         {
-            CheckForUpdates(AppSettings.ShouldCheckProgramUpdatePeriodic(), AppSettings.ShouldCheckAddonUpdatePeriodic());
+            // Program update checks are disabled in this custom build; addon updates are kept.
+            CheckForUpdates(false, AppSettings.ShouldCheckAddonUpdatePeriodic());
             CheckAddonBlacklist();
         }
 
@@ -1428,7 +1429,8 @@ namespace Playnite
 
             await Task.Run(() =>
             {
-                CheckForUpdates(AppSettings.ShouldCheckProgramUpdateStartup(), AppSettings.ShouldCheckAddonUpdateStartup());
+                // Program update checks are disabled in this custom build; addon updates are kept.
+                CheckForUpdates(false, AppSettings.ShouldCheckAddonUpdateStartup());
                 CheckAddonBlacklist();
             });
 

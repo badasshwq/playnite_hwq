@@ -49,9 +49,7 @@ namespace Playnite.DesktopApp.Controls.Views
         private TopPanelWrapperItem ButtonExplorerSwitch;
         private TopPanelWrapperItem ButtonSearch;
 
-        private TopPanelWrapperItem ButtonSwitchDetailsView;
-        private TopPanelWrapperItem ButtonSwitchGridView;
-        private TopPanelWrapperItem ButtonSwitchListView;
+        private ComboBox ComboView;
         private TopPanelWrapperItem ButtonSelectRandomGame;
         private TopPanelWrapperItem ButtonViewSelectRandomGame;
 
@@ -114,15 +112,15 @@ namespace Playnite.DesktopApp.Controls.Views
             ButtonExplorerSwitch.PanelItem.Visible = mainModel.AppSettings.ShowTopPanelExplorerSwitch;
             ButtonSearch.PanelItem.Visible = mainModel.AppSettings.ShowTopPanelSearchButton;
 
-            ButtonSwitchDetailsView.PanelItem.Visible = mainModel.AppSettings.ShowTopPanelDetailsViewSwitch;
-            ButtonSwitchGridView.PanelItem.Visible = mainModel.AppSettings.ShowTopPanelGridViewSwitch;
-            ButtonSwitchListView.PanelItem.Visible = mainModel.AppSettings.ShowTopPanelListViewSwitch;
             ButtonSelectRandomGame.PanelItem.Visible = mainModel.AppSettings.ShowTopPanelSelectRandomGameButton;
             ButtonViewSelectRandomGame.PanelItem.Visible = mainModel.AppSettings.ShowTopPanelViewSelectRandomGameButton;
 
-            var showSeparators = ButtonSwitchDetailsView.Visible || ButtonSwitchGridView.Visible || ButtonSwitchListView.Visible;
-            LeftViewSeparator.Visibility = showSeparators ? Visibility.Visible : Visibility.Collapsed;
-            RightViewSeparator.Visibility = showSeparators ? Visibility.Visible : Visibility.Collapsed;
+            var showView = mainModel.AppSettings.ShowTopPanelDetailsViewSwitch
+                || mainModel.AppSettings.ShowTopPanelGridViewSwitch
+                || mainModel.AppSettings.ShowTopPanelListViewSwitch;
+            ComboView.Visibility = showView ? Visibility.Visible : Visibility.Collapsed;
+            LeftViewSeparator.Visibility = showView ? Visibility.Visible : Visibility.Collapsed;
+            RightViewSeparator.Visibility = showView ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private TopPanelItem AssignPanelButton(string contentTemplate, ContextMenu menu, string tooltip, out TopPanelWrapperItem panelItem)
@@ -173,32 +171,25 @@ namespace Playnite.DesktopApp.Controls.Views
                 RightViewSeparator.Width = mainModel.AppSettings.TopPanelSectionSeparatorWidth;
                 PanelMainItems.Children.Add(LeftViewSeparator);
 
-                var detailsButton = AssignPanelButton("TopPanelSwitchDetailsViewTemplate", mainModel.SwitchDetailsViewCommand, DesktopView.Details.GetDescription(), out ButtonSwitchDetailsView);
-                BindingTools.SetBinding(detailsButton,
-                    TopPanelItem.IsToggledProperty,
+                ComboView = new ComboBox
+                {
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(8, 0, 0, 0),
+                    SelectedValuePath = nameof(ComboBoxItem.Tag),
+                    ItemsSource = new[]
+                    {
+                        new ComboBoxItem { Content = DesktopView.Details.GetDescription(), Tag = DesktopView.Details },
+                        new ComboBoxItem { Content = DesktopView.Grid.GetDescription(), Tag = DesktopView.Grid },
+                        new ComboBoxItem { Content = DesktopView.List.GetDescription(), Tag = DesktopView.List }
+                    }
+                };
+                System.Windows.Shell.WindowChrome.SetIsHitTestVisibleInChrome(ComboView, true);
+                BindingTools.SetBinding(ComboView,
+                    ComboBox.SelectedValueProperty,
                     mainModel.AppSettings.ViewSettings,
                     nameof(ViewSettings.GamesViewType),
-                    converter: new EnumToBooleanConverter(),
-                    converterParameter: DesktopView.Details);
-                PanelMainItems.Children.Add(detailsButton);
-
-                var gridButton = AssignPanelButton("TopPanelSwitchGridViewTemplate", mainModel.SwitchGridViewCommand, DesktopView.Grid.GetDescription(), out ButtonSwitchGridView);
-                BindingTools.SetBinding(gridButton,
-                    TopPanelItem.IsToggledProperty,
-                    mainModel.AppSettings.ViewSettings,
-                    nameof(ViewSettings.GamesViewType),
-                    converter: new EnumToBooleanConverter(),
-                    converterParameter: DesktopView.Grid);
-                PanelMainItems.Children.Add(gridButton);
-
-                var listButton = AssignPanelButton("TopPanelSwitchListViewTemplate", mainModel.SwitchListViewCommand, DesktopView.List.GetDescription(), out ButtonSwitchListView);
-                BindingTools.SetBinding(listButton,
-                    TopPanelItem.IsToggledProperty,
-                    mainModel.AppSettings.ViewSettings,
-                    nameof(ViewSettings.GamesViewType),
-                    converter: new EnumToBooleanConverter(),
-                    converterParameter: DesktopView.List);
-                PanelMainItems.Children.Add(listButton);
+                    BindingMode.TwoWay);
+                PanelMainItems.Children.Add(ComboView);
                 PanelMainItems.Children.Add(RightViewSeparator);
 
                 var updatesButton = AssignPanelButton("TopPanelUpdateButtonTemplate", mainModel.OpenUpdatesCommand, ResourceProvider.GetString(LOC.UpdateIsAvailableNotificationBody), out _);
