@@ -1,0 +1,371 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    mc:Ignorable="d">
+
+    <Style TargetType="{x:Type Main}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Main}">
+                    <Grid x:Name="PART_MainHost"
+                          Background="Black"
+                          d:DesignWidth="{StaticResource DesignWidth}"
+                          d:DesignHeight="{StaticResource DesignHeight}"
+                          d:DataContext="{x:Static DesignMainViewModel.DesignIntance}">
+
+                        <Grid x:Name="PART_ViewHost" Background="{x:Null}" RenderTransformOrigin="0.503,0.301">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="200*" />
+                                <RowDefinition Height="625*"/>
+                                <RowDefinition Height="70" />
+                            </Grid.RowDefinitions>
+
+                            <FadeImage x:Name="PART_ImageBackground" Grid.RowSpan="3" RenderOptions.BitmapScalingMode="HighQuality"
+                                       HorizontalAlignment="Center" VerticalAlignment="Stretch" Height="Auto" Margin="0" Panel.ZIndex="0" Grid.Row="0" Stretch="UniformToFill" >
+                                <FadeImage.OpacityMask>
+                                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                        <GradientStop Offset="0" Color="#00000000"  />
+                                        <GradientStop Offset="0.50" Color="#FF000000" />
+                                    </LinearGradientBrush>
+                                </FadeImage.OpacityMask>
+                            </FadeImage>
+
+                            
+                            <StackPanel x:Name="ShadowTopToBottom" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1" Margin="0" Background="Transparent"  Panel.ZIndex="2" Grid.Row="1" Grid.RowSpan="2" MinWidth="1920" Height="540" Style="{DynamicResource DisparitionMaintoGamedetail}"/>
+                            <Grid Grid.Row="0"
+                                  Height="Auto" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible" Panel.ZIndex="2" Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="75" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="f" Style="{DynamicResource FilterButtonTop}" FontFamily="{DynamicResource FontXboxOneController}" Grid.Column="1" Foreground="White" FontSize="50" VerticalAlignment="Center" Margin="0"/>
+
+                                <FilterPresetSelector x:Name="PART_FilterPresetSelector" Grid.Column="2" Margin="17.5,0,0,0" Foreground="Black" VerticalAlignment="Bottom" FontFamily="{DynamicResource Comfortaa}" Focusable="False" Panel.ZIndex="3" VerticalContentAlignment="Center" Grid.ColumnSpan="1" HorizontalAlignment="Right" HorizontalContentAlignment="Center" MaxWidth="950"/>
+
+                                <TextBlock Text="z" Style="{DynamicResource FilterButtonTop}" Grid.Column="3" FontFamily="{DynamicResource FontXboxOneController}" Margin="0" Foreground="White" FontSize="50" VerticalAlignment="Center"/>
+
+                                <TextBlock x:Name="NomJeux" 
+                                RenderOptions.BitmapScalingMode="Fant" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"  ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False" Text="{Binding SelectedGame.DisplayName}"  Grid.Row="0" Grid.ColumnSpan="1" FontSize="25" HorizontalAlignment="Center" Foreground="White" Margin="0" Height="Auto" Width="Auto" TextAlignment="Center" Grid.Column="5" Grid.RowSpan="1" Panel.ZIndex="-3" FontWeight="Normal" FontFamily="{DynamicResource Comfortaa}" Visibility="{Settings Fullscreen.ShowGameTitles}"/>
+                                <ContentControl x:Name="PART_ElemBatteryStatus" Focusable="False" FontSize="42"
+                                            VerticalAlignment="Center" Margin="0"
+                                            Grid.Column="6" HorizontalAlignment="Center" Width="50" Grid.ColumnSpan="1" Panel.ZIndex="2">
+                                    <ContentControl.Style>
+                                        <Style TargetType="{x:Type ContentControl}">
+                                            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PowerStatus.Charge}" Value="Critical">
+                                                    <Setter Property="Content" Value="{DynamicResource BatteryStatusCritical}" />
+                                                    <Setter Property="Foreground" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding PowerStatus.Charge}" Value="Low">
+                                                    <Setter Property="Content" Value="{DynamicResource BatteryStatusLow}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding PowerStatus.Charge}" Value="Medium">
+                                                    <Setter Property="Content" Value="{DynamicResource BatteryStatusMedium}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding PowerStatus.Charge}" Value="High">
+                                                    <Setter Property="Content" Value="{DynamicResource BatteryStatusHigh}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding PowerStatus.IsCharging}" Value="True">
+                                                    <Setter Property="Content" Value="{DynamicResource BatteryStatusCharging}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Style>
+                                </ContentControl>
+                                <TextBlock x:Name="PART_TextBatteryPercentage" Style="{DynamicResource TextBlockBaseStyle}" Foreground="White" FontFamily="{DynamicResource Comfortaa}"
+                                       VerticalAlignment="Center" Margin="0" 
+                                       Grid.Column="7" Panel.ZIndex="2" Width="Auto" HorizontalAlignment="Left" TextAlignment="Center" Grid.ColumnSpan="1"/>
+
+                                <TextBlock x:Name="PART_TextClock" Style="{DynamicResource TextBlockBaseStyle}" Foreground="White" FontFamily="{DynamicResource Comfortaa}"
+                                       VerticalAlignment="Center" Margin="0"
+                                       Grid.Column="8" Panel.ZIndex="2" Width="100" HorizontalAlignment="Center" TextAlignment="Center" FontSize="22" Grid.ColumnSpan="1"/>
+
+                                <ButtonEx x:Name="PART_ButtonProgramUpdate" VerticalAlignment="Center" Foreground="White"
+                                          Margin="10.001,14.3,43.894,14.3" Height="48" MinWidth="48"
+                                          Style="{DynamicResource ButtonTopMenu}"                                          
+                                          Grid.Column="11" Panel.ZIndex="2" Grid.ColumnSpan="2">
+                                    <TextBlock Text="&#xEF08;" FontFamily="{StaticResource FontIcoFont}"                                                   
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"
+                                                   Foreground="{DynamicResource GlyphLightBrush}" FontSize="30" />
+                                </ButtonEx>
+
+                                <ButtonEx x:Name="PART_ButtonNotifications" VerticalAlignment="Center"
+                                          Margin="10.426,14.3,10.425,14.3" Height="48" MinWidth="48"
+                                          Grid.Column="12" Grid.ColumnSpan="1" HorizontalAlignment="Center">
+                                    <ButtonEx.Style>
+                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonTopMenu}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Api Notifications.Count}" Value="0">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ButtonEx.Style>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="11*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="&#xEEA3;" FontFamily="{StaticResource FontIcoFont}"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6.092,4.56"
+                                                       Foreground="White" FontSize="30" Grid.ColumnSpan="2" />
+                                        <TextBlock Text="●"
+                                                       HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                                       FontSize="24" Margin="0,0,5,0" Grid.ColumnSpan="2" Foreground="#FF00FF0C" />
+                                    </Grid>
+                                </ButtonEx>
+
+                                <ButtonEx x:Name="PART_ButtonMainMenu" VerticalAlignment="Center"
+                                          Style="{DynamicResource ButtonTopMenu}"
+                                          Margin="10.517,14.3" Height="48" MinWidth="48"
+                                          Grid.Column="11" Width="48" HorizontalAlignment="Center" Grid.ColumnSpan="1">
+                                    <Image RenderOptions.BitmapScalingMode="Fant" Margin="2,0"
+                                           Source="{ThemeFile Images/Settings.png}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                </ButtonEx>
+                            </Grid>
+
+                            <DockPanel Grid.Row="1" Margin="0,15.4,0,0" Grid.RowSpan="2" Panel.ZIndex="15">
+                                <Filters x:Name="PART_ElemFilters"
+                                         DockPanel.Dock="Left" Focusable="False" d:IsHidden="True" />
+
+                                <FiltersAdditional x:Name="PART_ElemFiltersAdditional"
+                                                   DockPanel.Dock="Left" Focusable="False" />
+
+                                <ContentControl x:Name="PART_ContentFilterItems"
+                                            DockPanel.Dock="Left" Focusable="False" AutomationProperties.IsRequiredForForm="False" AutomationProperties.IsRowHeader="False" DataContext="{DynamicResource {x:Static SystemParameters.WorkAreaKey}}" />
+
+                                <ListBoxEx x:Name="PART_ListGameItems" Margin="0,-45,0,0"
+                                           Background="Transparent" BorderThickness="0"
+                                           KeyboardNavigation.DirectionalNavigation="Once"
+                                           Width="1960" VerticalAlignment="Top"
+                                           HorizontalAlignment="Stretch"
+                                           BorderBrush="{x:Null}"
+                                           Height="400"
+                                           Visibility="Visible"
+                                           Panel.ZIndex="2" AutomationProperties.IsOffscreenBehavior="Default" AutomationProperties.IsRequiredForForm="True" Padding="0" UseLayoutRounding="False" DockPanel.Dock="Top" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center"
+                                           />
+
+
+                                
+
+                            </DockPanel>
+
+                            <TextBlock Grid.Row="1" FontSize="40"
+                                       Text="{DynamicResource LOCNoGamesFound}"
+                                       TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" Height="48" Margin="522.08,442.7" Width="875.84" Grid.RowSpan="2">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockBaseStyle}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Items.Count, ElementName=PART_ListGameItems}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+
+
+                            <Grid Grid.Row="3"
+                              Height="70" Background="{DynamicResource TransparentDark}" Panel.ZIndex="2" Margin="0" VerticalAlignment="Bottom">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="291*" />
+                                    <ColumnDefinition Width="320*"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel x:Name="Logo" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Margin="50,-750,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False" Height="Auto" Width="Auto" Grid.RowSpan="7" Grid.Row="0" Grid.ColumnSpan="5" Grid.Column="0" HorizontalAlignment="Left" MinWidth="3" MinHeight="0" AllowDrop="False" Panel.ZIndex="3">
+                                    <StackPanel.Triggers>
+                                        <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0" To="0" />
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.4" From="0" To="1" BeginTime="0:0:0.35" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </StackPanel.Triggers>
+                                    <FadeImage x:Name="Icon" Source="{Binding SelectedGame.Icon}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Stretch="Uniform" Height="Auto" Width="500">
+                                        <FadeImage.Style>
+                                            <Style>
+                                                <Setter Property="FadeImage.Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0" To="0" />
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.4" From="0" To="1" BeginTime="0:0:0.35" />
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                    <DataTrigger Binding="{Binding ElementName=ExtraMetadata_Logo, Path=Height}" Value="0">
+                                                        <Setter Property="FadeImage.Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </FadeImage.Style>
+                                    </FadeImage>
+                                    <TextBlock x:Name="LogoPath" Tag="{DynamicResource ExtraMetadataPath}" Visibility="Collapsed" Panel.ZIndex="7">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Text">
+                                                    <Setter.Value>
+                                                        <MultiBinding StringFormat="{}{0}{1}{2}{3}">
+                                                            <Binding RelativeSource="{RelativeSource Self}" Path="Tag" />
+                                                            <Binding Source="\ExtraMetadata\games\"/>
+                                                            <Binding Path="SelectedGame.Id"/>
+                                                            <Binding Source="\logo.png" />
+                                                        </MultiBinding>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <Image x:Name="ExtraMetadata_Logo" RenderOptions.BitmapScalingMode="HighQuality" Height="Auto" Width="500" StretchDirection="Both" Stretch="Uniform" Tag="{DynamicResource UseAbsoluteExtraMetadataPath}">
+                                        <Image.Style>
+                                            <Style TargetType="{x:Type Image}">
+                                                <Setter Property="Source" Value="{Binding Text, ElementName=LogoPath}"/>
+                                                <Style.Triggers>
+                                                    <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0" To="0" />
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.4" From="0" To="1" BeginTime="0:0:0.35" />
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                </StackPanel>
+                                <Grid x:Name="Console_et_launcher" Margin="50,-92,0,102" VerticalAlignment="Center" HorizontalAlignment="Center" Width="Auto" Grid.ColumnSpan="2" Style="{DynamicResource DisparitionMaintoGamedetail}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image x:Name="PART_ImagePlatform" MaxHeight="50" MaxWidth="200"
+                                    RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Margin="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False" Height="50" Width="Auto" Source="{Binding SelectedGame.Platforms[0].Icon, Converter={StaticResource ImageStringToImageConverter}, IsAsync=True}" Grid.RowSpan="1" Grid.Row="0" HorizontalAlignment="Center" StretchDirection="DownOnly" Stretch="Uniform" MinWidth="0" MinHeight="0" AllowDrop="False" Panel.ZIndex="5" Grid.ColumnSpan="1" Grid.Column="0" AutomationProperties.IsRowHeader="False" />
+                                    <Image x:Name="PART_ImageLibrary" MaxHeight="50" MaxWidth="50"
+                                    RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False" Height="50" Width="Auto" Source="{Binding SelectedGame.LibraryPlugin.LibraryIcon, Converter={StaticResource ImageStringToImageConverter}, IsAsync=True}" Grid.RowSpan="1" Grid.Row="0" HorizontalAlignment="Left" StretchDirection="DownOnly" Stretch="UniformToFill" MinWidth="0" MinHeight="0" AllowDrop="False" Panel.ZIndex="5" Grid.ColumnSpan="1" Grid.Column="1" AutomationProperties.IsRowHeader="False" >
+                                        <Image.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedGame.Library}" Value="Playnite">
+                                                        <DataTrigger.EnterActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin" Duration="0:0:0.2" To="-30,0,-30,0" />
+                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.5" To="0" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.EnterActions>
+                                                        <DataTrigger.ExitActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin" Duration="0:0:0.2" To="30,0,30,0"/>
+                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.5"  To="1"/>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.ExitActions>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                </Grid>
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Grid.ColumnSpan="4" Margin="0" Height="30" HorizontalAlignment="Left">
+                                    <!--Install-->
+                                    <ButtonEx x:Name="PART_ButtonInstall"
+                                              Style="{DynamicResource ButtonBottomMenu}"
+                                              Content="{DynamicResource LOCInstallGame}" />
+                                    <!--Play-->
+                                    <ButtonEx x:Name="PART_ButtonPlay"
+                                              Style="{DynamicResource ButtonBottomMenu}"
+                                              Content="{DynamicResource LOCPlayGame}" HorizontalAlignment="Left" />
+                                    <!--Details-->
+                                    <ButtonEx x:Name="PART_ButtonDetails"
+                                              Style="{DynamicResource ButtonBottomMenu}"
+                                              Content="{DynamicResource LOCGameDetails}" HorizontalAlignment="Left" />
+                                    <!--Options-->
+                                    <ButtonEx x:Name="PART_ButtonGameOptions"
+                                              Style="{DynamicResource ButtonBottomMenu}"
+                                              Content="{DynamicResource LOCGameOptions}" HorizontalAlignment="Left" />
+                                    <!--Search-->
+                                    <ButtonEx x:Name="PART_ButtonSearch"
+                                              Style="{DynamicResource ButtonBottomMenu}"
+                                              Content="{DynamicResource LOCSearchLabel}" HorizontalAlignment="Left" />
+                                    <!--Filter-->
+                                    <ButtonEx x:Name="PART_ButtonFilter"
+                                              Style="{DynamicResource ButtonBottomMenu}"
+                                              Content="{DynamicResource LOCFilter}" HorizontalAlignment="Left" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" x:Name="PART_ElemSearchActive"
+                                            VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                                            Margin="0,15,0,0" Grid.ColumnSpan="2" Height="0">
+                                    <TextBlock  FontSize="18"
+                                                Visibility="{Settings Fullscreen.ShowGameTitles}"
+                                                TextAlignment="Center"
+                                                Style="{DynamicResource TextBlockBaseStyle}"
+                                                Text="{DynamicResource LOCGameListSearchResults}"/>
+                                    <TextBlock  Foreground="White"
+                                                TextAlignment="Center"
+                                                Style="{DynamicResource TextBlockBaseStyle}"
+                                                Text="{Binding AppSettings.Fullscreen.FilterSettings.Name}"/>
+                                </StackPanel>
+
+                                <!-- -->
+
+
+                                <TextBlock Grid.Column="2" x:Name="PART_ElemExtraFilterActive"
+                                       FontSize="20"
+                                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                                       TextAlignment="Center"
+                                       Style="{DynamicResource TextBlockBaseStyle}"
+                                       Text="{DynamicResource LOCGameListExtraFiltered}" Grid.ColumnSpan="2" Margin="0,50" Height="0"/>
+
+                                <StackPanel x:Name="PART_ElemProgressIndicator" Orientation="Horizontal"
+                                        Grid.Column="4" VerticalAlignment="Center" Margin="0" Height="38">
+                                    <TextBlock x:Name="PART_TextProgressTooltip" 
+                                           Margin="0,0,15,0" FontSize="20" VerticalAlignment="Center"
+                                           Style="{DynamicResource TextBlockBaseStyle}"/>
+                                    <ContentControl Style="{DynamicResource ProgressIndicator}" Focusable="False"
+                                                Height="38" Width="38" VerticalAlignment="Center" />
+                                </StackPanel>
+
+                            </Grid>
+                        </Grid>
+
+                        <GameDetails x:Name="PART_ElemGameDetails" Grid.RowSpan="3"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                        <GameStatus x:Name="PART_ElemGameStatus" Grid.RowSpan="3"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Viewbox HorizontalAlignment="Left" Height="100" Margin="616,-58,0,0" VerticalAlignment="Top" Width="100"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
