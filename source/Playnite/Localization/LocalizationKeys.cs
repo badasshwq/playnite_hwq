@@ -2530,6 +2530,46 @@ namespace Playnite
         /// </summary>
         public const string GameFoldersExcludeListEmpty = "LOCGameFoldersExcludeListEmpty";
         /// <summary>
+        /// Streaming
+        /// </summary>
+        public const string StreamingSidebar = "LOCStreamingSidebar";
+        /// <summary>
+        /// Streaming
+        /// </summary>
+        public const string StreamingTitle = "LOCStreamingTitle";
+        /// <summary>
+        /// Configure Sunshine streaming host integration. When streaming starts, Playnite can automatically switch to Fullscreen mode; when it ends, it returns to Desktop and minimizes to the tray.
+        /// </summary>
+        public const string StreamingDescription = "LOCStreamingDescription";
+        /// <summary>
+        /// Sunshine location
+        /// </summary>
+        public const string StreamingSunshineTitle = "LOCStreamingSunshineTitle";
+        /// <summary>
+        /// Path to sunshine.exe
+        /// </summary>
+        public const string StreamingSunshinePathLabel = "LOCStreamingSunshinePathLabel";
+        /// <summary>
+        /// Browse...
+        /// </summary>
+        public const string StreamingBrowse = "LOCStreamingBrowse";
+        /// <summary>
+        /// Auto-detect
+        /// </summary>
+        public const string StreamingAutoDetect = "LOCStreamingAutoDetect";
+        /// <summary>
+        /// sunshine.exe was not found in common install locations. Please locate it manually.
+        /// </summary>
+        public const string StreamingSunshineNotFound = "LOCStreamingSunshineNotFound";
+        /// <summary>
+        /// Automatically enter Fullscreen mode while streaming, and return to Desktop (minimized to tray) when it ends
+        /// </summary>
+        public const string StreamingAutoSwitch = "LOCStreamingAutoSwitch";
+        /// <summary>
+        /// Detection watches for a Sunshine stream session on UDP port 48000.
+        /// </summary>
+        public const string StreamingDetectionHint = "LOCStreamingDetectionHint";
+        /// <summary>
         /// SteamGridDB API key is not set — game covers can't be downloaded. Click to see how to set it up.
         /// </summary>
         public const string SgdbNotifyKeyMissing = "LOCSgdbNotifyKeyMissing";

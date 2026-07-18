@@ -1,0 +1,51 @@
+<UserControl x:Class="Playnite.DesktopApp.Controls.StreamingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="800">
+    <Grid Margin="40,30,40,30" MaxWidth="900" HorizontalAlignment="Left">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="{DynamicResource LOCStreamingTitle}"
+                   FontSize="{DynamicResource FontSizeLargest}" Margin="0,0,0,6" />
+        <TextBlock Grid.Row="1" Text="{DynamicResource LOCStreamingDescription}"
+                   Style="{DynamicResource BaseTextBlockStyle}" TextWrapping="Wrap"
+                   Foreground="{DynamicResource TextBrushDarker}" Margin="0,0,0,24" />
+
+        <!-- Sunshine 位置 -->
+        <StackPanel Grid.Row="2" Margin="0,0,0,24">
+            <TextBlock Text="{DynamicResource LOCStreamingSunshineTitle}"
+                       FontSize="{DynamicResource FontSizeLarge}" Margin="0,0,0,4" />
+            <TextBlock Text="{DynamicResource LOCStreamingSunshinePathLabel}"
+                       Style="{DynamicResource BaseTextBlockStyle}"
+                       Foreground="{DynamicResource TextBrushDarker}" Margin="0,0,0,8" />
+            <DockPanel LastChildFill="True">
+                <Button DockPanel.Dock="Right" Content="{DynamicResource LOCStreamingAutoDetect}"
+                        Command="{Binding AutoDetectSunshineCommand}"
+                        Padding="14,6,14,6" Margin="8,0,0,0" />
+                <Button DockPanel.Dock="Right" Content="{DynamicResource LOCStreamingBrowse}"
+                        Command="{Binding BrowseSunshineExeCommand}"
+                        Padding="14,6,14,6" Margin="8,0,0,0" />
+                <TextBox Text="{Binding AppSettings.SunshineExePath, UpdateSourceTrigger=PropertyChanged}"
+                         VerticalContentAlignment="Center" Padding="6,4,6,4" />
+            </DockPanel>
+        </StackPanel>
+
+        <!-- 串流联动 -->
+        <StackPanel Grid.Row="3">
+            <CheckBox Content="{DynamicResource LOCStreamingAutoSwitch}"
+                      IsChecked="{Binding AppSettings.AutoSwitchModeOnStream}"
+                      VerticalContentAlignment="Center" Margin="0,0,0,8" />
+            <TextBlock Text="{DynamicResource LOCStreamingDetectionHint}"
+                       Style="{DynamicResource BaseTextBlockStyle}" TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextBrushDarker}" Margin="24,0,0,0" />
+        </StackPanel>
+    </Grid>
+</UserControl>

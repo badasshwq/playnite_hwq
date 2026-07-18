@@ -60,6 +60,9 @@ namespace Playnite
         [Option("startclosedtotray")]
         public bool StartClosedToTray { get; set; }
 
+        [Option("minimizetotray")]
+        public bool MinimizeToTray { get; set; }
+
         [Option("userdatadir")]
         public string UserDataDir { get; set; }
 

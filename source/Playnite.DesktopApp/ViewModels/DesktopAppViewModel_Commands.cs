@@ -3,6 +3,7 @@ using Playnite.SDK;
 using Playnite.SDK.Exceptions;
 using Playnite.SDK.Models;
 using Playnite.SDK.Plugins;
+using Playnite.Streaming;
 using Playnite.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,8 @@ namespace Playnite.DesktopApp.ViewModels
         public RelayCommand<object> AddGameFolderCommand { get; private set; }
         public RelayCommand<string> RemoveGameFolderCommand { get; private set; }
         public RelayCommand<string> RemoveExcludedExeCommand { get; private set; }
+        public RelayCommand<object> BrowseSunshineExeCommand { get; private set; }
+        public RelayCommand<object> AutoDetectSunshineCommand { get; private set; }
         public RelayCommand<object> AddEmulatedGamesCommand { get; private set; }
         public RelayCommand<object> AddWindowsStoreGamesCommand { get; private set; }
         public RelayCommand<object> OpenFullScreenCommand { get; private set; }
@@ -249,6 +252,28 @@ namespace Playnite.DesktopApp.ViewModels
                 if (!string.IsNullOrEmpty(exe))
                 {
                     AppSettings.ExcludedGameExes.Remove(exe);
+                }
+            });
+
+            BrowseSunshineExeCommand = new RelayCommand<object>((a) =>
+            {
+                var path = Dialogs.SelectFile("sunshine.exe|sunshine.exe|Executable|*.exe");
+                if (!string.IsNullOrEmpty(path))
+                {
+                    AppSettings.SunshineExePath = path;
+                }
+            });
+
+            AutoDetectSunshineCommand = new RelayCommand<object>((a) =>
+            {
+                var found = StreamSessionWatcher.FindSunshineExe();
+                if (!string.IsNullOrEmpty(found))
+                {
+                    AppSettings.SunshineExePath = found;
+                }
+                else
+                {
+                    Dialogs.ShowMessage(Resources.GetString(LOC.StreamingSunshineNotFound));
                 }
             });
 

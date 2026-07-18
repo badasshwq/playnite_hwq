@@ -103,6 +103,9 @@ namespace Playnite.FullscreenApp
 #pragma warning restore CS4014
             ProcessArguments();
             PropertyChanged += FullscreenApplication_PropertyChanged;
+
+            // 若开启了串流联动，全屏进程也启动检测器：串流结束时切回桌面并最小化到托盘。
+            StartStreamWatcher();
             return true;
         }
 

@@ -190,6 +190,9 @@
     <Compile Include="Controls\GameFoldersView.xaml.cs">
       <DependentUpon>GameFoldersView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\StreamingView.xaml.cs">
+      <DependentUpon>StreamingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Menus\ViewSelectionMenu.cs" />
     <Compile Include="Controls\Menus\SortSettingsMenu.cs" />
     <Compile Include="Controls\Menus\GroupSettingsMenu.cs" />
@@ -623,6 +626,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\GameFoldersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\StreamingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

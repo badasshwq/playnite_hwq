@@ -229,6 +229,13 @@ namespace Playnite.DesktopApp.ViewModels
                 Title = Resources.GetString(LOC.GameFoldersSidebar)
             };
 
+            streamingView = new Controls.StreamingView(this);
+            var streamingItem = new MainSidebarViewItem(streamingView, this, ApplicationView.Streaming)
+            {
+                Icon = "SidebarLibraryIcon",
+                Title = Resources.GetString(LOC.StreamingSidebar)
+            };
+
             var sideItems = new List<SidebarWrapperItem>();
             foreach (var plugin in Extensions.Plugins)
             {
@@ -247,6 +254,7 @@ namespace Playnite.DesktopApp.ViewModels
             }
 
             sideItems = sideItems.OrderByDescending(a => a.SideItem.Type).ThenBy(a => a.SideItem.Title).ToList();
+            sideItems.Insert(0, new SidebarWrapperItem(streamingItem, this));
             sideItems.Insert(0, new SidebarWrapperItem(gameFoldersItem, this));
             sideItems.Insert(0, new SidebarWrapperItem(statsItem, this));
             sideItems.Insert(0, new SidebarWrapperItem(libraryItem, this));

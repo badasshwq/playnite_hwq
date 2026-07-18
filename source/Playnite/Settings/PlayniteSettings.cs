@@ -107,7 +107,8 @@ namespace Playnite
     {
         Library,
         Statistics,
-        GameFolders
+        GameFolders,
+        Streaming
     }
 
     public enum ImageLoadScaling
@@ -1221,6 +1222,36 @@ namespace Playnite
             set
             {
                 excludedGameExes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string sunshineExePath = string.Empty;
+        public string SunshineExePath
+        {
+            get
+            {
+                return sunshineExePath;
+            }
+
+            set
+            {
+                sunshineExePath = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool autoSwitchModeOnStream = false;
+        public bool AutoSwitchModeOnStream
+        {
+            get
+            {
+                return autoSwitchModeOnStream;
+            }
+
+            set
+            {
+                autoSwitchModeOnStream = value;
                 OnPropertyChanged();
             }
         }

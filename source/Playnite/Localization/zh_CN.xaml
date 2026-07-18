@@ -694,6 +694,16 @@
     <sys:String x:Key="LOCGameFoldersExcludeListTitle">排除名单</sys:String>
     <sys:String x:Key="LOCGameFoldersExcludeListDescription">这些游戏文件夹在扫描时会被整个忽略，不会再次弹出。移除某一项后，下次扫描会重新发现该文件夹里的游戏。</sys:String>
     <sys:String x:Key="LOCGameFoldersExcludeListEmpty">还没有排除任何文件夹。在扫描窗口勾选想排除的游戏，点“排除所选”。</sys:String>
+    <sys:String x:Key="LOCStreamingSidebar">串流配置</sys:String>
+    <sys:String x:Key="LOCStreamingTitle">串流配置</sys:String>
+    <sys:String x:Key="LOCStreamingDescription">配置 Sunshine 串流主机的联动。串流开始时，Playnite 可自动切换到全屏模式；串流结束时，自动返回桌面模式并最小化到系统托盘。</sys:String>
+    <sys:String x:Key="LOCStreamingSunshineTitle">Sunshine 位置</sys:String>
+    <sys:String x:Key="LOCStreamingSunshinePathLabel">sunshine.exe 路径</sys:String>
+    <sys:String x:Key="LOCStreamingBrowse">浏览…</sys:String>
+    <sys:String x:Key="LOCStreamingAutoDetect">自动查找</sys:String>
+    <sys:String x:Key="LOCStreamingSunshineNotFound">未在常见安装位置找到 sunshine.exe，请手动指定。</sys:String>
+    <sys:String x:Key="LOCStreamingAutoSwitch">串流时自动进入全屏模式，结束后返回桌面模式并最小化到托盘</sys:String>
+    <sys:String x:Key="LOCStreamingDetectionHint">检测方式：监听 Sunshine 串流会话占用的 UDP 48000 端口。</sys:String>
     <sys:String x:Key="LOCSgdbNotifyKeyMissing">未配置 SteamGridDB 密钥，游戏封面无法下载。点击查看配置教程。</sys:String>
     <sys:String x:Key="LOCSgdbGuideWindowTitle">SteamGridDB 配置教程</sys:String>
     <sys:String x:Key="LOCSgdbGuideHeading">让游戏自动获得精美封面</sys:String>

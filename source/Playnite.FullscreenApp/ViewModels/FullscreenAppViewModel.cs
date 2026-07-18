@@ -749,15 +749,19 @@ namespace Playnite.FullscreenApp.ViewModels
             }
 
             CloseView();
+            // 串流结束触发的回桌面：不传 --startdesktop（桌面 exe 启动本就是桌面模式），
+            // 否则会额外触发一次 SwitchMode→Restore 把托盘里的窗口重新拉出来显示。只让它静默进托盘。
+            var returnToTray = App.StreamEndReturnToTray;
             App.QuitAndStart(
                 PlaynitePaths.DesktopExecutablePath,
                 new CmdLineOptions()
                 {
                     SkipLibUpdate = true,
-                    StartInDesktop = true,
+                    StartInDesktop = !returnToTray,
                     MasterInstance = true,
                     SafeStartup = App.CmdLine.SafeStartup,
-                    UserDataDir = App.CmdLine.UserDataDir
+                    UserDataDir = App.CmdLine.UserDataDir,
+                    StartClosedToTray = returnToTray
                 }.ToString());
         }
 

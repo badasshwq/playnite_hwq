@@ -15,6 +15,7 @@ namespace Playnite
         SwitchMode = 4,
         Shutdown = 5,
         BackupData = 6,
-        RestoreBackup = 7
+        RestoreBackup = 7,
+        MinimizeToTray = 8
     }
 }

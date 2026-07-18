@@ -46,6 +46,7 @@ namespace Playnite.DesktopApp.ViewModels
         private Controls.LibraryStatistics statsView;
         private Controls.Views.Library libraryView;
         private Controls.GameFoldersView gameFoldersView;
+        private Controls.StreamingView streamingView;
         private SearchViewModel currentGlobalSearch;
 
         public DesktopGamesEditor GamesEditor { get; }
@@ -1108,7 +1109,8 @@ namespace Playnite.DesktopApp.ViewModels
 
         public void OpenView()
         {
-            if (App.CmdLine.StartClosedToTray && AppSettings.EnableTray)
+            var startClosedToTray = App.CmdLine.StartClosedToTray && AppSettings.EnableTray;
+            if (startClosedToTray)
             {
                 Visibility = Visibility.Hidden;
             }
@@ -1121,8 +1123,9 @@ namespace Playnite.DesktopApp.ViewModels
             {
                 WindowState = WindowState.Minimized;
             }
-            else
+            else if (!startClosedToTray)
             {
+                // 当以“启动即最小化到托盘”方式启动时，不要恢复显示窗口，否则会覆盖前面的隐藏。
                 Window.RestoreWindow();
             }
 

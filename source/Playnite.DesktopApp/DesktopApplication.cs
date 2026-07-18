@@ -234,6 +234,9 @@ namespace Playnite.DesktopApp
             // This is most likely safe place to consider application to be started properly
             FileSystem.DeleteFile(PlaynitePaths.SafeStartupFlagFile);
 
+            // 先启动串流检测器（只是起个后台 Timer，瞬间返回），避免被后面的扫描弹窗等模态对话框阻塞。
+            StartStreamWatcher();
+
             // 开机自动扫描“游戏目录”里配置的文件夹，发现新游戏则弹窗让用户勾选导入（无新游戏则静默）。
             if (!isFirstStart && AppSettings.AutoScanGameFoldersOnStartup && AppSettings.GameScanFolders?.Any() == true)
             {

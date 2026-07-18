@@ -45,6 +45,7 @@ namespace Playnite
         private AddonLoadError themeLoadError = AddonLoadError.None;
         private ThemeManifest customTheme;
         private readonly Dictionary<string, Assembly> magickAssemblies = new Dictionary<string, Assembly>();
+        private Streaming.StreamSessionWatcher streamWatcher;
 
         private bool isActive;
         public bool IsActive
@@ -453,6 +454,64 @@ namespace Playnite
 
         public abstract void SwitchAppMode(ApplicationMode mode);
 
+        /// <summary>
+        /// 由串流会话结束触发切回桌面时置为 true，让新启动的桌面进程直接最小化到托盘。
+        /// 桌面模式启动读取后即消费。
+        /// </summary>
+        public bool StreamEndReturnToTray { get; set; }
+
+        /// <summary>
+        /// 启动 Sunshine 串流会话检测器。桌面与全屏两个进程都会调用；切模式会退出当前进程、
+        /// 启动另一个进程，新进程再次调用本方法接力监听，因此监听不会中断。
+        /// </summary>
+        protected void StartStreamWatcher()
+        {
+            if (AppSettings?.AutoSwitchModeOnStream != true)
+            {
+                return;
+            }
+
+            try
+            {
+                streamWatcher = new Streaming.StreamSessionWatcher();
+                streamWatcher.StreamStarted += (_, __) => SyncContext.Post(___ => OnStreamStarted(), null);
+                streamWatcher.StreamEnded += (_, __) => SyncContext.Post(___ => OnStreamEnded(), null);
+                streamWatcher.Start();
+            }
+            catch (Exception e) when (!PlayniteEnvironment.ThrowAllErrors)
+            {
+                logger.Error(e, "Failed to start stream session watcher.");
+            }
+        }
+
+        private void OnStreamStarted()
+        {
+            if (Mode == ApplicationMode.Fullscreen)
+            {
+                return;
+            }
+
+            logger.Info("Stream started, switching to Fullscreen mode.");
+            SwitchAppMode(ApplicationMode.Fullscreen);
+        }
+
+        private void OnStreamEnded()
+        {
+            if (Mode == ApplicationMode.Fullscreen)
+            {
+                // 全屏进程：切回桌面时让新桌面进程直接进托盘。
+                logger.Info("Stream ended, switching back to Desktop mode (minimized to tray).");
+                StreamEndReturnToTray = true;
+                SwitchAppMode(ApplicationMode.Desktop);
+            }
+            else
+            {
+                // 已经在桌面模式（例如串流期间用户手动切回过），直接最小化到托盘。
+                logger.Info("Stream ended in Desktop mode, minimizing to tray.");
+                Minimize();
+            }
+        }
+
         public abstract void ConfigureViews();
 
         private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
@@ -855,6 +914,10 @@ namespace Playnite
                     }
                     break;
 
+                case CmdlineCommand.MinimizeToTray:
+                    SyncContext.Post(_ => Minimize(), null);
+                    break;
+
                 case CmdlineCommand.Shutdown:
                     Quit();
                     break;
@@ -953,6 +1016,10 @@ namespace Playnite
                             else if (CmdLine.StartInFullscreen)
                             {
                                 client.InvokeCommand(CmdlineCommand.SwitchMode, "fullscreen");
+                            }
+                            else if (CmdLine.MinimizeToTray)
+                            {
+                                client.InvokeCommand(CmdlineCommand.MinimizeToTray, null);
                             }
                             else if (CmdLine.Shutdown)
                             {
@@ -1108,6 +1175,10 @@ namespace Playnite
             else if (CmdLine.StartInFullscreen)
             {
                 PipeService_CommandExecuted(this, new CommandExecutedEventArgs(CmdlineCommand.SwitchMode, "fullscreen"));
+            }
+            else if (CmdLine.MinimizeToTray)
+            {
+                PipeService_CommandExecuted(this, new CommandExecutedEventArgs(CmdlineCommand.MinimizeToTray, null));
             }
             else if (CmdLine.Shutdown)
             {
