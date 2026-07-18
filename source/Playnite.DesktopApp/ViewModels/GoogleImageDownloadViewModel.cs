@@ -18,6 +18,10 @@ namespace Playnite.DesktopApp.ViewModels
         private readonly IResourceProvider resources;
         private bool closingHanled = false;
         private readonly GoogleImageDownloader downloader;
+        private readonly SteamGridDBImageDownloader sgdbDownloader = new SteamGridDBImageDownloader();
+        private readonly WebImageType imageType;
+        // SteamGridDB 搜不到当前搜索词时的回退词（通常是游戏安装目录的英文文件夹名）。
+        private readonly string steamGridDBFallback;
 
         public double ItemWidth { get; set; } = 240;
         public double ItemHeight { get; set; } = 180;
@@ -212,12 +216,16 @@ namespace Playnite.DesktopApp.ViewModels
             SafeSearchSettings safeSearch,
             WebImageSearchSource source,
             double itemWidth = 0,
-            double itemHeigth = 0)
+            double itemHeigth = 0,
+            WebImageType imageType = WebImageType.Any,
+            string steamGridDBFallback = null)
         {
             this.window = window;
             this.resources = resources;
             this.safeSearch = safeSearch;
             this.source = source;
+            this.imageType = imageType;
+            this.steamGridDBFallback = steamGridDBFallback;
             if (itemWidth != 0)
             {
                 ItemWidth = itemWidth;
@@ -267,7 +275,9 @@ namespace Playnite.DesktopApp.ViewModels
 
             if (GlobalProgress.ActivateProgress((_) =>
             {
-                if (source == WebImageSearchSource.Google)
+                if (source == WebImageSearchSource.SteamGridDB)
+                    AvailableImages = sgdbDownloader.GetImages(GetSteamGridDBQuery(query), imageType, steamGridDBFallback);
+                else if (source == WebImageSearchSource.Google)
                     AvailableImages = downloader.GetImages(query, SafeSearch, Transparent).GetAwaiter().GetResult();
                 else
                     AvailableImages = downloader.GetDdgImages(query, Transparent);
@@ -275,7 +285,14 @@ namespace Playnite.DesktopApp.ViewModels
             {
                 if (!AvailableImages.HasItems())
                 {
-                    Dialogs.ShowErrorMessage(LOC.WebImageDownloadError.GetLocalized() + "\n\n" + "https://playnite.link/webimageissues", "");
+                    if (source == WebImageSearchSource.SteamGridDB && !SteamGridDBImageDownloader.IsConfigured())
+                    {
+                        Dialogs.ShowErrorMessage(LOC.SgdbNotifyKeyMissing.GetLocalized(), "");
+                    }
+                    else
+                    {
+                        Dialogs.ShowErrorMessage(LOC.WebImageDownloadError.GetLocalized() + "\n\n" + "https://playnite.link/webimageissues", "");
+                    }
                     return;
                 }
 
@@ -292,6 +309,37 @@ namespace Playnite.DesktopApp.ViewModels
                     ShowLoadMore = false;
                 }
             }
+        }
+
+        // SteamGridDB 按游戏名搜索，不需要网页搜图那些 icon/cover/wallpaper 英文后缀（带上反而搜不到）。
+        // 去掉常见后缀，尽量还原成纯游戏名。
+        private static string GetSteamGridDBQuery(string query)
+        {
+            if (query.IsNullOrWhiteSpace())
+            {
+                return query;
+            }
+
+            var trimmed = query.Trim();
+            foreach (var suffix in new[] { " icon", " cover", " wallpaper", " background", " logo" })
+            {
+                if (trimmed.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
+                {
+                    trimmed = trimmed.Substring(0, trimmed.Length - suffix.Length).Trim();
+                }
+            }
+
+            // 去掉网页搜图模板给游戏名加的成对双引号（如 "土豆兄弟" -> 土豆兄弟），否则 SteamGridDB 搜不到。
+            trimmed = trimmed.Replace("\"", "").Trim();
+
+            // 去掉可能残留的 imagesize: 过滤词
+            var sizeIdx = trimmed.IndexOf("imagesize:", StringComparison.OrdinalIgnoreCase);
+            if (sizeIdx >= 0)
+            {
+                trimmed = trimmed.Substring(0, sizeIdx).Trim();
+            }
+
+            return trimmed;
         }
 
         public void SetSearchResolution(string resolution)

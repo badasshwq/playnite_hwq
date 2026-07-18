@@ -30,7 +30,17 @@ namespace Playnite
     public enum WebImageSearchSource
     {
         Google,
-        DuckDuckGo
+        DuckDuckGo,
+        SteamGridDB
+    }
+
+    // 从 SteamGridDB 搜图时，区分要拉哪一类图（对应不同 API 端点）。
+    public enum WebImageType
+    {
+        Any,
+        Icon,
+        Cover,
+        Background
     }
 
     public enum DesktopSettingsPage
@@ -2307,7 +2317,7 @@ namespace Playnite
         private SafeSearchSettings webImageSafeSearch = SafeSearchSettings.Default;
         public SafeSearchSettings WebImageSafeSearch { get => webImageSafeSearch; set => SetValue(ref webImageSafeSearch, value); }
 
-        private WebImageSearchSource defaultWebImageSource = WebImageSearchSource.Google;
+        private WebImageSearchSource defaultWebImageSource = WebImageSearchSource.SteamGridDB;
         public WebImageSearchSource DefaultWebImageSource { get => defaultWebImageSource; set => SetValue(ref defaultWebImageSource, value); }
 
         public Guid LastSelectedGame { get; set; }

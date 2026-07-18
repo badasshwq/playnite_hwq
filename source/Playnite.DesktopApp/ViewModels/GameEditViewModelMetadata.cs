@@ -664,6 +664,27 @@ namespace Playnite.DesktopApp.ViewModels
             }
         }
 
+        // 取游戏安装目录的最后一段文件夹名，作为 SteamGridDB 搜图的英文原名候选。
+        // 解压即玩游戏的目录名通常是英文原名（如 D:\Games\Brotato），比用户可能改成中文的 Name 更适合搜 SteamGridDB。
+        private string GetInstallDirName()
+        {
+            var dir = EditingGame?.InstallDirectory;
+            if (dir.IsNullOrWhiteSpace())
+            {
+                return null;
+            }
+
+            try
+            {
+                var name = System.IO.Path.GetFileName(dir.TrimEnd('\\', '/'));
+                return name.IsNullOrWhiteSpace() ? null : name;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         private string ReplaceImageSearchVariables(string input)
         {
             input = input.Replace("{Name}", editingGame.Name, StringComparison.OrdinalIgnoreCase);
@@ -672,11 +693,27 @@ namespace Playnite.DesktopApp.ViewModels
             return input.Replace("{Platform}", editingGame.Platforms?.FirstOrDefault()?.Name, StringComparison.OrdinalIgnoreCase);
         }
 
+        // 默认源是 SteamGridDB 且能拿到安装目录英文文件夹名时，初始搜索词直接用目录名（所见即所搜，
+        // 避免输入框显示中文名却在后台偷偷回退到英文）。否则回退到原来的网页搜图模板。
+        private string GetInitialSearchTerm(string template, string defaultSuffix)
+        {
+            if (appSettings.DefaultWebImageSource == WebImageSearchSource.SteamGridDB)
+            {
+                var dirName = GetInstallDirName();
+                if (!dirName.IsNullOrWhiteSpace())
+                {
+                    return dirName;
+                }
+            }
+
+            var searchTerm = template.IsNullOrWhiteSpace() ? $"{EditingGame.Name} {defaultSuffix}" : template;
+            return ReplaceImageSearchVariables(searchTerm);
+        }
+
         public void SelectGoogleIcon()
         {
-            var searchTerm = appSettings.WebImageSarchIconTerm.IsNullOrWhiteSpace() ? $"{EditingGame.Name} icon" : appSettings.WebImageSarchIconTerm;
-            searchTerm = ReplaceImageSearchVariables(searchTerm);
-            var image = SelectGoogleImage(searchTerm, tempEditingIconFileName);
+            var searchTerm = GetInitialSearchTerm(appSettings.WebImageSarchIconTerm, "icon");
+            var image = SelectGoogleImage(searchTerm, tempEditingIconFileName, imageType: WebImageType.Icon);
             if (!image.IsNullOrEmpty())
             {
                 EditingGame.Icon = image;
@@ -685,9 +722,8 @@ namespace Playnite.DesktopApp.ViewModels
 
         public void SelectGoogleCover()
         {
-            var searchTerm = appSettings.WebImageSarchCoverTerm.IsNullOrWhiteSpace() ? $"{EditingGame.Name} cover" : appSettings.WebImageSarchCoverTerm;
-            searchTerm = ReplaceImageSearchVariables(searchTerm);
-            var image = SelectGoogleImage(searchTerm, tempEditingCoverFileName);
+            var searchTerm = GetInitialSearchTerm(appSettings.WebImageSarchCoverTerm, "cover");
+            var image = SelectGoogleImage(searchTerm, tempEditingCoverFileName, imageType: WebImageType.Cover);
             if (!image.IsNullOrEmpty())
             {
                 EditingGame.CoverImage = image;
@@ -696,16 +732,15 @@ namespace Playnite.DesktopApp.ViewModels
 
         public void SelectGoogleBackground()
         {
-            var searchTerm = appSettings.WebImageSarchBackgroundTerm.IsNullOrWhiteSpace() ? $"{EditingGame.Name} wallpaper" : appSettings.WebImageSarchBackgroundTerm;
-            searchTerm = ReplaceImageSearchVariables(searchTerm);
-            var image = SelectGoogleImage(searchTerm, tempEditingBackgroundFileName);
+            var searchTerm = GetInitialSearchTerm(appSettings.WebImageSarchBackgroundTerm, "wallpaper");
+            var image = SelectGoogleImage(searchTerm, tempEditingBackgroundFileName, imageType: WebImageType.Background);
             if (!image.IsNullOrEmpty())
             {
                 EditingGame.BackgroundImage = image;
             }
         }
 
-        public string SelectGoogleImage(string searchTerm, string tempFileName, double imageWidth = 0, double imageHeight = 0)
+        public string SelectGoogleImage(string searchTerm, string tempFileName, double imageWidth = 0, double imageHeight = 0, WebImageType imageType = WebImageType.Any)
         {
             var model = new GoogleImageDownloadViewModel(
                 new GoogleImageDownloadWindowFactory(),
@@ -714,7 +749,9 @@ namespace Playnite.DesktopApp.ViewModels
                 appSettings.WebImageSafeSearch,
                 appSettings.DefaultWebImageSource,
                 imageWidth,
-                imageHeight);
+                imageHeight,
+                imageType,
+                GetInstallDirName());
             if (model.OpenView() == true)
             {
                 try

@@ -501,6 +501,7 @@
     <Compile Include="Settings\PlaynitePaths.cs" />
     <Compile Include="PipeServer.cs" />
     <Compile Include="Streaming\StreamSessionWatcher.cs" />
+    <Compile Include="SteamGridDBImageDownloader.cs" />
     <Compile Include="PlayniteEnvironment.cs" />
     <Compile Include="Diagnostic.cs" />
     <Compile Include="Settings\FilterSettings.cs" />
